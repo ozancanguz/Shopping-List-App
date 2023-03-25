@@ -54,7 +54,7 @@ class ItemListFragment : Fragment() {
 
 
         // set menu
-        setHasOptionsMenu(true)
+     //   setHasOptionsMenu(true)
 
         // setting up rv
         setupRv()
@@ -80,6 +80,12 @@ class ItemListFragment : Fragment() {
             findNavController().navigate(R.id.action_itemListFragment_to_historyFragment2)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val deleteAllMenuItem = menu.findItem(R.id.deleteAll)
+        deleteAllMenuItem.isVisible = itemListViewModel.getAllItems.value?.isNotEmpty() == true
     }
 
     // delete all items alert dialog function
@@ -111,6 +117,7 @@ class ItemListFragment : Fragment() {
     private fun observeLiveData(){
         itemListViewModel.getAllItems.observe(viewLifecycleOwner, Observer {
             listadapter.setData(it)
+            setHasOptionsMenu(it.isNotEmpty())
 
         })
 

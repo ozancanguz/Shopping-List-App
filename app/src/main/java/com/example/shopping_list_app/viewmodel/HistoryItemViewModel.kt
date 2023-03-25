@@ -3,6 +3,7 @@ package com.example.shopping_list_app.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.example.shopping_list_app.data.db.history.HistoryItem
 import com.example.shopping_list_app.data.repository.Repository
@@ -42,5 +43,9 @@ class HistoryItemViewModel@Inject constructor(private val repository: Repository
         viewModelScope.launch {
             repository.deleteAllHistoryItems()
         }
+    }
+
+    val isEmpty2: LiveData<Boolean> = Transformations.map(getAllHistoryItems) { list ->
+        list.isEmpty()
     }
 }

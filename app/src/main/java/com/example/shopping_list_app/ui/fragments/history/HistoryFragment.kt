@@ -69,6 +69,13 @@ class HistoryFragment : Fragment() {
     private fun observeLiveData(){
         historyItemViewModel.getAllHistoryItems.observe(viewLifecycleOwner, Observer {
             historyAdapter.setData(it)
+
+            historyItemViewModel.isEmpty2.observe(viewLifecycleOwner) { isEmpty ->
+                binding.tvEmptyList2.visibility = if (isEmpty) View.VISIBLE else View.GONE
+
+            }
+
+
         })
     }
 
@@ -88,6 +95,7 @@ class HistoryFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     private fun deleteHistoryAlertDialog() {
         val builder = AlertDialog.Builder(requireContext())
