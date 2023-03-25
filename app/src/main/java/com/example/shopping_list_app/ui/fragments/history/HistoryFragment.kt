@@ -1,10 +1,10 @@
 package com.example.shopping_list_app.ui.fragments.history
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,8 +47,16 @@ class HistoryFragment : Fragment() {
         historyAdapter= HistoryListAdapter(historyItemViewModel)
 
 
+        // setting up recyclerview
         setupRv()
+
+        // observe live data and update ui
         observeLiveData()
+
+        // set menu
+        setHasOptionsMenu(true)
+
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -63,6 +71,42 @@ class HistoryFragment : Fragment() {
             historyAdapter.setData(it)
         })
     }
+
+
+// create menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.historymenu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    // item selected on menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId==R.id.historyDeleteAll){
+
+           // delete all history items list
+            deleteHistoryAlertDialog()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteHistoryAlertDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("Delete All Items")
+        builder.setMessage("Are you sure you want to delete all items on the list?")
+        builder.setPositiveButton("Yes") { _, _ ->
+            historyItemViewModel.deleteAllHistoryItems()
+            Toast.makeText(requireContext(),"All items are deleted", Toast.LENGTH_LONG).show()
+
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 
 
 
