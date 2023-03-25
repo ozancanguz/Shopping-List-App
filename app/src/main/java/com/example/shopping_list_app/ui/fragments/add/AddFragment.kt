@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.shopping_list_app.R
+import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +36,16 @@ class AddFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.addfragmentmenu,menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    // insert item into shopping list
+    fun insertDb(){
+        val itemName=binding.itemNameET.text.toString()
+        val amount=binding.quantityET.text.toString().toInt()
+
+        var newItem= Item(0,itemName,amount)
+
     }
 
 
