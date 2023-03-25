@@ -3,6 +3,7 @@ package com.example.shopping_list_app.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.data.repository.Repository
@@ -19,6 +20,10 @@ class ItemListViewModel @Inject constructor(private val repository: Repository, 
 
     //get all data list
     val getAllItems: LiveData<List<Item>>
+
+
+
+
 
     // init get all data
     init {
@@ -51,6 +56,7 @@ class ItemListViewModel @Inject constructor(private val repository: Repository, 
             repository.deleleAllItems()
         }
     }
+
 
 
 

@@ -106,6 +106,7 @@ class ItemListFragment : Fragment() {
     private fun observeLiveData(){
         itemListViewModel.getAllItems.observe(viewLifecycleOwner, Observer {
             listadapter.setData(it)
+
         })
     }
 
