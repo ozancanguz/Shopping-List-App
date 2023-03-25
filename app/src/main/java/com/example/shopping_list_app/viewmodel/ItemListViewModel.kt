@@ -34,21 +34,12 @@ class ItemListViewModel @Inject constructor(private val repository: Repository, 
     }
 
     // insert item
-    // insert or update item
-    fun insertOrUpdateData(item: Item) {
-        viewModelScope.launch(Dispatchers.IO) {
-            // check if the item already exists in the list
-            val existingItem = getAllItems.value?.find { it.itemName == item.itemName }
-            if (existingItem != null) {
-                // if the item already exists, update its amount
-                existingItem.amount += item.amount
-                repository.insertItem(existingItem)
-            } else {
-                // if the item doesn't exist, insert it into the database
-                repository.insertItem(item)
-            }
+    fun insertData(item: Item){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.insertItem(item)
         }
     }
+
     // delete single item
     fun deleteItem(item: Item){
         viewModelScope.launch (Dispatchers.IO){
