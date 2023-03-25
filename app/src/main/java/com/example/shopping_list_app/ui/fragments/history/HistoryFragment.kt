@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.shopping_list_app.R
 import com.example.shopping_list_app.databinding.FragmentHistoryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
