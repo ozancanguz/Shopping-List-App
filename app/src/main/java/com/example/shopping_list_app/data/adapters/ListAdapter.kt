@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.databinding.ItemlistRowLayoutBinding
+import com.example.shopping_list_app.viewmodel.ItemListViewModel
 
-class ListAdapter() :
+class ListAdapter(private val viewModel: ItemListViewModel) :
     RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
     var itemList= emptyList<Item>()
@@ -18,6 +19,36 @@ class ListAdapter() :
         fun bind(item: Item) {
             binding.tvName.text = item.itemName
             binding.tvAmount.text = item.amount.toString()
+
+            if (item.amount < 1) {
+                viewModel.deleteItem(item)
+                return
+            }
+
+            binding.ivDelete.setOnClickListener {
+                viewModel.deleteItem(item)
+            }
+
+            binding.ivPlus.setOnClickListener {
+                item.amount++
+                binding.tvAmount.text = item.amount.toString()
+                viewModel.insertData(item)
+            }
+
+            binding.ivMinus.setOnClickListener {
+                if (item.amount > 0) {
+                    item.amount--
+                    binding.tvAmount.text = item.amount.toString()
+                    viewModel.insertData(item)
+                }
+                if (item.amount == 0) {
+                    viewModel.deleteItem(item)
+                }
+
+
+            }
+
+
         }
     }
 

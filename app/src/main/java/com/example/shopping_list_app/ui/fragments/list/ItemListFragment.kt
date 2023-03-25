@@ -1,10 +1,12 @@
 package com.example.shopping_list_app.ui.fragments.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopping_list_app.R
@@ -21,10 +23,9 @@ class ItemListFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    private val itemListViewModel: ItemListViewModel by viewModels()
+    private lateinit var itemListViewModel: ItemListViewModel
 
-    private val listAdapter= ListAdapter()
-
+    private lateinit var listadapter:ListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +36,24 @@ class ItemListFragment : Fragment() {
         val view = binding.root
 
 
-       // set menu
-        setHasOptionsMenu(true)
+
+
+        return view
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        itemListViewModel = ViewModelProvider(this).get(ItemListViewModel::class.java)
+        listadapter=ListAdapter(itemListViewModel)
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_itemListFragment_to_addFragment)
         }
+
+
+
+        // set menu
+        setHasOptionsMenu(true)
 
         // setting up rv
         setupRv()
@@ -48,8 +61,7 @@ class ItemListFragment : Fragment() {
         // observe live data and update ui
         observeLiveData()
 
-        return view
-
+        super.onViewCreated(view, savedInstanceState)
     }
 
 
@@ -59,16 +71,41 @@ class ItemListFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    // menu onclick
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId==R.id.deleteAll){
+            deleteAlertDialog()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // delete all items alert dialog function
+    private fun deleteAlertDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("Delete All Items")
+        builder.setMessage("Are you sure you want to delete all items on the list?")
+        builder.setPositiveButton("Yes") { _, _ ->
+           itemListViewModel.deleteAll()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 
     private fun setupRv() {
         binding.recyclerView.layoutManager= LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter=listAdapter
+        binding.recyclerView.adapter=listadapter
     }
 
 
     private fun observeLiveData(){
         itemListViewModel.getAllItems.observe(viewLifecycleOwner, Observer {
-            listAdapter.setData(it)
+            listadapter.setData(it)
         })
     }
 

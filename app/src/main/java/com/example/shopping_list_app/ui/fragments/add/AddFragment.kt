@@ -2,6 +2,7 @@ package com.example.shopping_list_app.ui.fragments.add
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -49,8 +50,14 @@ class AddFragment : Fragment() {
     fun insertDb(){
         val itemName=binding.itemNameET.text.toString()
         val amount=binding.quantityET.text.toString().toInt()
-
-        var newItem= Item(0,itemName,amount)
+        if(amount==0) {
+            Toast.makeText(
+                requireContext(),
+                "You cannot enter 0 for item quantity.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        val newItem= Item(0,itemName,amount)
 
         itemListViewModel.insertData(newItem)
         findNavController().navigate(R.id.action_addFragment_to_itemListFragment)
