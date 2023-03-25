@@ -13,8 +13,10 @@ import com.example.shopping_list_app.databinding.FragmentAddBinding
 import com.example.shopping_list_app.viewmodel.HistoryItemViewModel
 import com.example.shopping_list_app.viewmodel.ItemListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
@@ -73,10 +75,10 @@ class AddFragment : Fragment() {
     fun insertHistoryDb(){
         val itemName=binding.itemNameET.text.toString()
         val amount=binding.quantityET.text.toString().toInt()
-        val currentDateTime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-        val formattedDateTime = currentDateTime.format(formatter)
-        val newHistoryItem= HistoryItem(0,itemName,amount,formattedDateTime)
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+        val dateTimeString = dateFormat.format(calendar.time)
+        val newHistoryItem= HistoryItem(0,itemName,amount,dateTimeString)
         historyItemViewModel.insertHistoryItem(newHistoryItem)
 
     }
