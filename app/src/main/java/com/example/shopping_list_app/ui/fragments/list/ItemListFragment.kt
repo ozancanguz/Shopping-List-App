@@ -1,10 +1,8 @@
 package com.example.shopping_list_app.ui.fragments.list
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.shopping_list_app.R
 import com.example.shopping_list_app.databinding.FragmentItemListBinding
@@ -26,7 +24,10 @@ class ItemListFragment : Fragment() {
         val view = binding.root
 
 
-        binding.button.setOnClickListener {
+       // set menu
+        setHasOptionsMenu(true)
+
+        binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_itemListFragment_to_addFragment)
         }
 
@@ -34,5 +35,11 @@ class ItemListFragment : Fragment() {
 
     }
 
+
+    // create menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.itemlistfragmentmenu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
 }
