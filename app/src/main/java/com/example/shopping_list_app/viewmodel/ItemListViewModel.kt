@@ -16,6 +16,16 @@ import javax.inject.Inject
 class ItemListViewModel @Inject constructor(private val repository: Repository, application: Application):AndroidViewModel(application){
 
 
+
+    //get all data list
+    val getAllItems: LiveData<List<Item>>
+
+    // init get all data
+    init {
+        getAllItems=repository.getAllItems()
+    }
+
+
     // get all items
     fun getAllItems(){
         repository.getAllItems()
