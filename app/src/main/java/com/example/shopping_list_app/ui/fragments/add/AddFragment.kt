@@ -3,9 +3,12 @@ package com.example.shopping_list_app.ui.fragments.add
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.shopping_list_app.R
 import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.databinding.FragmentAddBinding
+import com.example.shopping_list_app.viewmodel.ItemListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,6 +16,9 @@ class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
 
     private val binding get() = _binding!!
+
+    // init viewmodel
+    private val itemListViewModel: ItemListViewModel by viewModels()
 
 
 
@@ -46,6 +52,17 @@ class AddFragment : Fragment() {
 
         var newItem= Item(0,itemName,amount)
 
+        itemListViewModel.insertData(newItem)
+        findNavController().navigate(R.id.action_addFragment_to_itemListFragment)
+
+    }
+
+    // save menu onclick
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId==R.id.menu_add){
+            insertDb()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
