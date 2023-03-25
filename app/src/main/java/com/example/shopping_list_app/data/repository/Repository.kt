@@ -1,6 +1,8 @@
 package com.example.shopping_list_app.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.room.Query
+import androidx.room.Update
 import com.example.shopping_list_app.data.db.history.HistoryDao
 import com.example.shopping_list_app.data.db.history.HistoryItem
 import com.example.shopping_list_app.data.db.item.Item
@@ -44,6 +46,9 @@ class Repository@Inject constructor(private val itemDao: ItemDao,private val his
     suspend fun deleteAllHistoryItems(){
         return historyDao.deleteAllHistoryItem()
     }
+
+
+
 
 
 

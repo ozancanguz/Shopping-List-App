@@ -15,6 +15,7 @@
         android:layout_marginTop="75dp"
         android:ems="10"
         android:hint="Add Item Name"
+        android:textSize="23sp"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,8 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="23dp"
         android:ems="10"
+        android:textSize="23sp"
+
         android:hint="Add Item Quantity"
         android:inputType="numberSigned"
         app:layout_constraintEnd_toEndOf="parent"

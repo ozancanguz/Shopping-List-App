@@ -29,9 +29,7 @@ class ItemListViewModel @Inject constructor(private val repository: Repository, 
 
 
     // get all items
-    fun getAllItems(){
-        repository.getAllItems()
-    }
+
 
     // insert item
     fun insertData(item: Item){

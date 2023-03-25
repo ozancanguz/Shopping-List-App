@@ -2,6 +2,7 @@ package com.example.shopping_list_app.data.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_list_app.data.db.history.HistoryItem
 import com.example.shopping_list_app.databinding.HistoryitemrowlayoutBinding
@@ -18,13 +19,12 @@ class HistoryListAdapter(private val viewModel: HistoryItemViewModel) :
         }
     }
 
-
-
     var historyItemList = emptyList<HistoryItem>()
 
-    fun setData(newData:List<HistoryItem>){
-        this.historyItemList=newData
-        notifyDataSetChanged()
+    fun setData(newData: List<HistoryItem>) {
+        val diffResult = DiffUtil.calculateDiff(HistoryItemDiffCallback(historyItemList, newData))
+        historyItemList = newData
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -38,5 +38,19 @@ class HistoryListAdapter(private val viewModel: HistoryItemViewModel) :
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val currentHistoryItem = historyItemList[position]
         holder.bind(currentHistoryItem)
+    }
+
+    // DiffUtil callback to compare old and new lists
+    class HistoryItemDiffCallback(
+        private val oldList: List<HistoryItem>,
+        private val newList: List<HistoryItem>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition].id == newList[newItemPosition].id
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 }
