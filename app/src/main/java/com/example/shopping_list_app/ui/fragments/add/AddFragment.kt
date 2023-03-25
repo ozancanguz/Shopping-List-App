@@ -7,10 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.shopping_list_app.R
+import com.example.shopping_list_app.data.db.history.HistoryItem
 import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.databinding.FragmentAddBinding
+import com.example.shopping_list_app.viewmodel.HistoryItemViewModel
 import com.example.shopping_list_app.viewmodel.ItemListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
@@ -21,6 +25,8 @@ class AddFragment : Fragment() {
     // init viewmodel
     private val itemListViewModel: ItemListViewModel by viewModels()
 
+
+    private val historyItemViewModel: HistoryItemViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -64,10 +70,23 @@ class AddFragment : Fragment() {
 
     }
 
+    fun insertHistoryDb(){
+        val itemName=binding.itemNameET.text.toString()
+        val amount=binding.quantityET.text.toString().toInt()
+        val currentDateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+        val formattedDateTime = currentDateTime.format(formatter)
+        val newHistoryItem= HistoryItem(0,itemName,amount,formattedDateTime)
+        historyItemViewModel.insertHistoryItem(newHistoryItem)
+
+    }
+
+
     // save menu onclick
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId==R.id.menu_add){
             insertDb()
+            insertHistoryDb()
         }
         return super.onOptionsItemSelected(item)
     }
