@@ -113,6 +113,11 @@ class ItemListFragment : Fragment() {
             listadapter.setData(it)
 
         })
+
+        itemListViewModel.isEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            binding.tvEmptyList.visibility = if (isEmpty) View.VISIBLE else View.GONE
+
+        }
     }
 
 }
