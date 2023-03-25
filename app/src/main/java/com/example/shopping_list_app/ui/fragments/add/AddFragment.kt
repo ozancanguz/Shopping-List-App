@@ -67,7 +67,7 @@ class AddFragment : Fragment() {
         }
         val newItem= Item(0,itemName,amount)
 
-        itemListViewModel.insertData(newItem)
+        itemListViewModel.insertOrUpdateData(newItem)
         findNavController().navigate(R.id.action_addFragment_to_itemListFragment)
 
     }

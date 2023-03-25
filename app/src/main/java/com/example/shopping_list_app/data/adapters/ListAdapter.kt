@@ -32,20 +32,19 @@ class ListAdapter(private val viewModel: ItemListViewModel) :
             binding.ivPlus.setOnClickListener {
                 item.amount++
                 binding.tvAmount.text = item.amount.toString()
-                viewModel.insertData(item)
+                viewModel.insertOrUpdateData(item)
             }
+
 
             binding.ivMinus.setOnClickListener {
                 if (item.amount > 0) {
                     item.amount--
                     binding.tvAmount.text = item.amount.toString()
-                    viewModel.insertData(item)
+                    viewModel.insertOrUpdateData(item)
                 }
                 if (item.amount == 0) {
                     viewModel.deleteItem(item)
                 }
-
-
             }
 
 
