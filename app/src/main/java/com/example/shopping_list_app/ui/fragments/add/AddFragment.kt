@@ -1,10 +1,8 @@
 package com.example.shopping_list_app.ui.fragments.add
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.example.shopping_list_app.R
 import com.example.shopping_list_app.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +24,18 @@ class AddFragment : Fragment() {
         val view = binding.root
 
 
+        // set menu
+        setHasOptionsMenu(true)
+
+
+
         return view
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.addfragmentmenu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
 
 }
