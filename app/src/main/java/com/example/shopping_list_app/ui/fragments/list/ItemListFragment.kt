@@ -3,6 +3,9 @@ package com.example.shopping_list_app.ui.fragments.list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -95,16 +98,33 @@ class ItemListFragment : Fragment() {
         builder.setTitle("Delete All Items")
         builder.setMessage("Are you sure you want to delete all items on the list?")
         builder.setPositiveButton("Yes") { _, _ ->
-           itemListViewModel.deleteAll()
+            itemListViewModel.deleteAll()
+            makeToast()
+            builder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
 
-            Toast.makeText(requireContext(),"All items are deleted",Toast.LENGTH_LONG).show()
+            val dialog = builder.create()
+            dialog.show()
         }
-        builder.setNegativeButton("No") { dialog, _ ->
-            dialog.dismiss()
-        }
+    }
 
-        val dialog = builder.create()
-        dialog.show()
+
+    private fun makeToast(){
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.custom_toast, null)
+
+// Set the message and image on the layout's TextView and ImageView
+        val textView = layout.findViewById<TextView>(R.id.toast_text)
+        textView.text = "Successfully deleted"
+
+        val imageView = layout.findViewById<ImageView>(R.id.toast_image)
+        imageView.setImageResource(R.drawable.check)
+
+// Create and show the Toast object with the custom layout
+        val toast = Toast.makeText(context, "", Toast.LENGTH_SHORT)
+        toast.view = layout
+        toast.show()
     }
 
 

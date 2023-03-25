@@ -27,9 +27,6 @@ class HistoryFragment : Fragment() {
     private lateinit var historyAdapter: HistoryListAdapter
 
 
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
