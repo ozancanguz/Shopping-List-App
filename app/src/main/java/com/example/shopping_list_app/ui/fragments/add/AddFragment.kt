@@ -55,22 +55,37 @@ class AddFragment : Fragment() {
 
 
     // insert item into shopping list
-    fun insertDb(){
-        val itemName=binding.itemNameET.text.toString()
-        val amount=binding.quantityET.text.toString().toInt()
-        if(amount==0) {
+    fun insertDb(): Boolean {
+        val itemName = binding.itemNameET.text?.toString()?.trim()
+        val amountString = binding.quantityET.text?.toString()?.trim()
+
+        if (itemName.isNullOrEmpty() || amountString.isNullOrEmpty()) {
             Toast.makeText(
                 requireContext(),
-                "You cannot enter 0 for item quantity.",
+                "Please enter a valid item name and quantity.",
                 Toast.LENGTH_LONG
             ).show()
+            return false // exit the function and return false to indicate failure
         }
-        val newItem= Item(0,itemName,amount)
+
+        val amount = amountString.toIntOrNull()
+
+        if (amount == null || amount <= 0) {
+            Toast.makeText(
+                requireContext(),
+                "Please enter a valid quantity greater than 0.",
+                Toast.LENGTH_LONG
+            ).show()
+            return false // exit the function and return false to indicate failure
+        }
+
+        val newItem = Item(0, itemName, amount)
 
         itemListViewModel.insertData(newItem)
         findNavController().navigate(R.id.action_addFragment_to_itemListFragment)
-
+        return true // return true to indicate success
     }
+
 
     fun insertHistoryDb(){
         val itemName=binding.itemNameET.text.toString()
@@ -87,8 +102,10 @@ class AddFragment : Fragment() {
     // save menu onclick
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId==R.id.menu_add){
-            insertDb()
-            insertHistoryDb()
+            val isInsertionSuccessful = insertDb()
+            if (isInsertionSuccessful) {
+                insertHistoryDb()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
