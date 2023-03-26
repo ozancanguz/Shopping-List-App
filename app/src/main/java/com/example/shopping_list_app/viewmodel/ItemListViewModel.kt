@@ -8,6 +8,8 @@ import com.example.shopping_list_app.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,5 +58,17 @@ class ItemListViewModel @Inject constructor(private val repository: Repository, 
         list.isEmpty()
     }
 
+
+    fun getItemByName(itemName: String): LiveData<Item?> {
+        return liveData {
+            emit(repository.getItemByName(itemName))
+        }
+    }
+
+    fun insertOrUpdate(item: Item) {
+        viewModelScope.launch {
+            repository.insertOrUpdate(item)
+        }
+    }
 
 }
