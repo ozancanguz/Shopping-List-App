@@ -31,5 +31,9 @@ object DatabaseModule {
     @Provides
     fun provideDao2(database: ItemListDatabase) = database.historyDao()
 
+    @Singleton
+    @Provides
+    fun provideDao3(database: ItemListDatabase) = database.savedListDao()
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.shopping_list_app.data.db.item
 
 import com.example.shopping_list_app.data.db.history.HistoryItem
+import com.example.shopping_list_app.data.db.savedlist.SavedList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -29,5 +30,19 @@ class TypeConverter {
         val listType = object : TypeToken<Item>() {}.type
         return gson.fromJson(data, listType)
     }
+
+    @androidx.room.TypeConverter
+    fun ProductToStringgg(savedList: List<SavedList>): String {
+        return gson.toJson(savedList)
+    }
+
+    @androidx.room.TypeConverter
+    fun stringToProductsss(data: String): List<SavedList> {
+        val listType = object : TypeToken<List<SavedList>>() {}.type
+        return gson.fromJson(data, listType)
+    }
+
+
+
 
 }
