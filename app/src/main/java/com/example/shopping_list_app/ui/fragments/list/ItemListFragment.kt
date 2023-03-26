@@ -7,11 +7,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopping_list_app.R
 import com.example.shopping_list_app.data.adapters.ListAdapter
+import com.example.shopping_list_app.data.db.savedlist.SavedListViewModel
 import com.example.shopping_list_app.databinding.FragmentItemListBinding
 import com.example.shopping_list_app.viewmodel.ItemListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +27,8 @@ class ItemListFragment : Fragment() {
 
 
     private lateinit var itemListViewModel: ItemListViewModel
+
+    private lateinit var savedListViewModel: SavedListViewModel
 
     private lateinit var listadapter:ListAdapter
 
@@ -46,6 +50,9 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         itemListViewModel = ViewModelProvider(this).get(ItemListViewModel::class.java)
         listadapter=ListAdapter(itemListViewModel)
+
+
+        savedListViewModel=ViewModelProvider(this).get(SavedListViewModel::class.java)
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_itemListFragment_to_addFragment)
@@ -77,7 +84,9 @@ class ItemListFragment : Fragment() {
         if(item.itemId==R.id.deleteAll){
             deleteAlertDialog()
         }else if(item.itemId==R.id.complete){
-            findNavController().navigate(R.id.action_itemListFragment_to_historyFragment2)
+
+            val itemList = savedListViewModel.items.value ?: emptyList()
+            savedListViewModel.saveList(itemList)
         }
         return super.onOptionsItemSelected(item)
     }
