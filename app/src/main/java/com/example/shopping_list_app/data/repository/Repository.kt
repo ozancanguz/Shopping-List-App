@@ -7,14 +7,11 @@ import com.example.shopping_list_app.data.db.history.HistoryDao
 import com.example.shopping_list_app.data.db.history.HistoryItem
 import com.example.shopping_list_app.data.db.item.Item
 import com.example.shopping_list_app.data.db.item.ItemDao
-import com.example.shopping_list_app.data.db.savedList.SavedList
-import com.example.shopping_list_app.data.db.savedList.SavedListDao
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 @ViewModelScoped
-class Repository@Inject constructor(private val itemDao: ItemDao,private val historyDao: HistoryDao
-,private val savedListDao: SavedListDao) {
+class Repository@Inject constructor(private val itemDao: ItemDao,private val historyDao: HistoryDao) {
 
 
     fun getAllItems(): LiveData<List<Item>> {
@@ -53,14 +50,8 @@ class Repository@Inject constructor(private val itemDao: ItemDao,private val his
 
 
 
-    suspend fun insert(savedList: SavedList) {
-        savedListDao.insert(savedList)
-    }
+
+
 
 
 }
-
-
-
-
-
