@@ -77,7 +77,8 @@ class ItemListFragment : Fragment() {
         if(item.itemId==R.id.deleteAll){
             deleteAlertDialog()
         }else if(item.itemId==R.id.complete){
-findNavController().navigate(R.id.action_itemListFragment_to_savedListFragment)        }
+            findNavController().navigate(R.id.action_itemListFragment_to_historyFragment2)
+        }
         return super.onOptionsItemSelected(item)
     }
 

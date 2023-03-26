@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_itemListFragment_to_addFragment"
             app:destination="@id/addFragment" />
-        <action
-            android:id="@+id/action_itemListFragment_to_savedListFragment"
-            app:destination="@id/savedListFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -36,15 +33,6 @@
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_itemListFragment"
-            app:destination="@id/itemListFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/savedListFragment"
-        android:name="com.example.shopping_list_app.data.db.savedlist.SavedListFragment"
-        android:label="fragment_saved_list"
-        tools:layout="@layout/fragment_saved_list" >
-        <action
-            android:id="@+id/action_savedListFragment_to_itemListFragment"
             app:destination="@id/itemListFragment" />
     </fragment>
 </navigation>
